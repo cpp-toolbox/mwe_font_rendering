@@ -1,17 +1,8 @@
-//
-// Created by ccn on 24/02/24.
-//
-
 #include <iostream>
 #include <map>
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "text_rendering.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -63,54 +54,16 @@ initialize_glfw_and_return_window(const unsigned int screen_width, const unsigne
     }
 
     return {true, window};
-
 }
 
-OpenGLFontDrawingInformation configure_opengl(const unsigned int screen_width, const unsigned int screen_height) {
 
-    // OpenGL state
-    // ------------
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // compile and setup the shader_pipeline
-    // ----------------------------
-    ShaderPipeline shader_pipeline;
-    shader_pipeline.load_in_shaders_from_file("../shaders/text.vert", "../shaders/text.frag");
-    glm::mat4 projection = glm::ortho(0.0f, static_cast<float>(screen_width), 0.0f, static_cast<float>(screen_height));
-    glUniformMatrix4fv(glGetUniformLocation(shader_pipeline.shader_program_id, "projection"), 1, GL_FALSE,
-                       glm::value_ptr(projection));
-
-    // configure VAO/VBO for texture quads
-    // -----------------------------------
-    GLuint vao_name, vbo_name;
-    glGenVertexArrays(1, &vao_name);
-    glGenBuffers(1, &vbo_name);
-    glBindVertexArray(vao_name);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo_name);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
-
-    // a generic vertex type that contains all information
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
-
-    return {shader_pipeline, vao_name, vbo_name};
-
-}
-
-void
-render(ShaderPipeline shader_pipeline, std::map<GLchar, CharacterDrawingData> char_to_drawing_data, GLuint vao_name,
-       GLuint vbo_name) {
+void render(std::map<GLchar, CharacterDrawingData> char_to_drawing_data, TextRenderer text_renderer) {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    render_text(shader_pipeline, char_to_drawing_data, vao_name, vbo_name, "Yes, it's working", 25.0f, 25.0f, 1.0f,
+    text_renderer.render_text(char_to_drawing_data,  "HEALTH: 100", 25.0f, 25.0f, 1.0f,
                 glm::vec3(0.5, 0.8f, 0.2f));
-    render_text(shader_pipeline, char_to_drawing_data, vao_name, vbo_name, "Font Rendering :)", 540.0f, 570.0f, 0.5f,
+    text_renderer.render_text(char_to_drawing_data,  "this is a test JJJjjjj", 540.0f, 570.0f, 0.5f,
                 glm::vec3(0.3, 0.7f, 0.9f));
 }
 

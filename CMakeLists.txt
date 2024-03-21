@@ -5,10 +5,12 @@ project(mwe_opengl_text)
 add_executable(mwe_opengl_text main.cpp
         shader_pipeline/shader_pipeline.cpp
         external_libraries/glad_opengl_3.3_core/src/gl.c
-        text_rendering.cpp
-        text_rendering.hpp
+
         graphics.cpp
         graphics.hpp
+
+        font_rendering/text_renderer.cpp
+        font_rendering/text_renderer.hpp
 )
 
 # GLAD: opengl function loader

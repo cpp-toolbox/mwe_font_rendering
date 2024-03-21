@@ -13,3 +13,6 @@
 [submodule "external_libraries/glm"]
 	path = external_libraries/glm
 	url = git@github.com:g-truc/glm.git
+[submodule "font_rendering"]
+	path = font_rendering
+	url = git@github.com:opengl-toolbox/font_rendering.git
