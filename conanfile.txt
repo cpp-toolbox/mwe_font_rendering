@@ -1,0 +1,11 @@
+[requires]
+glfw/3.4
+glad/0.1.36
+freetype/2.13.2
+
+[generators]
+CMakeDeps
+CMakeToolchain
+
+[layout]
+cmake_layout
